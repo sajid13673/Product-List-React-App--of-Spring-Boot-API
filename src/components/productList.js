@@ -40,7 +40,7 @@ export default function ProductList(props){
     },[statusHover, props.status])
     return(
         <div className='ProductDetails'>
-            <img className='productImage' src={props.image !== null ? /*props.image.imageLink*/defaultImage : defaultImage} alt='productImage'/>
+            <img className='productImage' src={props.image !== null ? props.image.imageLink : defaultImage} alt='productImage'/>
             <p>SKU: {props.sku}</p>
             <p>Name: {props.name}</p>
             <p>Price: $ {props.price}</p>

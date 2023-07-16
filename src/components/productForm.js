@@ -5,7 +5,8 @@ export default function ProductForm(props){
         sku: "",
         name:"",
         price:"",
-        status:false
+        status:false,
+        imageFile:""
     })
     function handleChange(event){
         const name = event.target.name;
@@ -22,23 +23,26 @@ export default function ProductForm(props){
             props.handleEdit(event, formData);
         }
     }
+    function handleImage(event){
+      setFormData(prevFormData=>{return{...prevFormData,[event.target.name]:event.target.files[0]}})
+      console.log("filechanged");
+  }
     React.useEffect(()=>{
       if(props.updateStatus != undefined && props.updateStatus)
       {
       console.log(props.productWithId);
       console.log(props.updateStatus);
       const productWithId = props.productWithId;
-      setFormData({
+      setFormData((prevData)=>{return{...prevData,
         sku: productWithId.sku,
         name: productWithId.name,
         price: productWithId.price,
         status: productWithId.status
-      });
+      }});
     }
     },[props.productWithId])
     return(
         <div className="div-form"> 
-        <h1>product form</h1>
         <form
           id="product-form"
           onSubmit={handleSubmit}
@@ -65,13 +69,13 @@ export default function ProductForm(props){
             value={formData.price}
             onChange={handleChange}
           />
-          {/* <p>Image:</p>
+          <p>Image:</p>
           <input
             type="file"
             className="file-input"
             name="imageFile"
             onChange={handleImage}
-          /> */}
+          /> 
           <p>Status:</p>
           <label className="toggle">
             <input
