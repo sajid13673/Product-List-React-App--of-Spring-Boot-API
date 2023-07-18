@@ -24,8 +24,7 @@ export default function App(){
         image={item.image}
         status={item.status}
         handleEdit={() => handleEdit(item.id)}
-        // handleDelete = {()=>handleDelete(item.id, item.images)}
-        //handleStatus = {()=>handleStatus(item.id, item.status)}
+        handleStatus = {()=>handleStatus(item.id)}
       />
     );
   });
@@ -47,20 +46,26 @@ export default function App(){
     console.log("products");
   }
   function deleteFromFireBase(imageName) {
-    //if(imageName != null){
     const desertRef = ref(storage, `images/${imageName}`);
     deleteObject(desertRef);
-    //}
   }
   function handleDelete(id, image) {
     axios.delete("http://localhost:8080/api/v1/product/" + id).then(() => {
       if (image !== null) {
         console.log(image.imageName);
         deleteFromFireBase(image.imageName);
-        getProducts();
         console.log("deleted : " + id);
       }
+      getProducts();
     });
+  }
+  function handleStatus(id){
+    axios.put(`http://localhost:8080/api/v1/product/status/${id}`).then(
+      ()=>{
+        console.log("status updated");
+        getProducts();
+      }
+    )
   }
   const [navStatus, setNavStatus] = React.useState(false);
   const [update, setUpdate] = React.useState(false);
